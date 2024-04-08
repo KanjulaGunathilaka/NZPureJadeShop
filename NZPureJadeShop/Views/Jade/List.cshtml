@@ -1,0 +1,30 @@
+﻿@model JadeListViewModel
+
+<h1>@Model.CurrentCategory</h1>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+
+    @foreach (var jade in Model.Jades)
+    {
+        <div class="col">
+            <div class="card jade-card">
+                <img src="@jade.ImageThumbnailUrl" class="card-img-top" alt="@jade.Name">
+                <div class="card-body jade-button">
+                    <h4 class="d-grid">
+                    </h4>
+
+                    <div class="d-flex justify-content-between mt-2">
+                        <h2 class="text-start">
+                            <a class="jade-link">@jade.Name</a>
+                        </h2>
+                        <h5 class="text-nowrap">
+                            @jade.Price.ToString("c")
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
