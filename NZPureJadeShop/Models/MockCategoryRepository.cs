@@ -5,9 +5,11 @@
         public IEnumerable<Category> AllCategories =>
             new List<Category>
             {
-                new Category {CategoryId = 1, CategoryName = "Fruit Pies",Description = "All-fruity Pies"},
-                new Category {CategoryId = 2,CategoryName = "Cheese Cakes", Description = "Cheesy all the way"},
-                new Category {CategoryId = 3,CategoryName = "seasonal Pies", Description = "Get in the mood for a seasonal pie"}
+                new Category {CategoryId = 1, CategoryName = "Corded Necklaces",Description = "Corded Necklaces"},
+                new Category {CategoryId = 2,CategoryName = "Pounamu Earrings", Description = "Pounamu Earrings"},
+                new Category {CategoryId = 3,CategoryName = "Bangles & Bracelets", Description = "Bangles & Bracelets"},
+                new Category {CategoryId = 4,CategoryName = "Sculptures", Description = "Sculptures"}
+
             };
     }
 }
