@@ -1,11 +1,18 @@
+using BethanysPieShop.Models;
+using Microsoft.EntityFrameworkCore;
 using NZPureJadeShop.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IJadeRepository, MockJadeRepository>();
-builder.Services.AddScoped<ICategoryRepository, MockCategoryRepository>();
+builder.Services.AddScoped<IJadeRepository, JadeRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
+builder.Services.AddDbContext<NZPureJadeShopDbContext>(options =>
+{
+    options.UseSqlServer(
+        builder.Configuration["ConnectionStrings:NZPureJadeShopDbContextConnection"]);
+});
 
 var app = builder.Build();
 
@@ -17,5 +24,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapDefaultControllerRoute();
+
+DbInitializer.Seed(app);
 
 app.Run();
