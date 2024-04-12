@@ -19,8 +19,20 @@ namespace NZPureJadeShop.Controllers
         {
             //return View(_jadeRepository.AllJades);
 
-            JadeListViewModel jadeListViewModel = new JadeListViewModel(_jadeRepository.AllJades, "Cheese cakes");
+            JadeListViewModel jadeListViewModel = new JadeListViewModel(_jadeRepository.AllJades, "All Jades");
             return View(jadeListViewModel);
+
+        }
+        public IActionResult Details(int id)
+        {
+            var jade = _jadeRepository.GetJadeById(id);
+
+            if (jade == null)
+            {
+                return NotFound();
+            }
+
+            return View(jade);
         }
     }
 }
