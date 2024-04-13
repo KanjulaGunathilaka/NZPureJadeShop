@@ -1,6 +1,6 @@
 ﻿using System.IO.Pipelines;
 
-namespace NZPureJadeShop.Models
+namespace NZPureJadeShop.Models.IRepository
 {
     public interface IJadeRepository
     {

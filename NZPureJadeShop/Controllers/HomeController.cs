@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NZPureJadeShop.Models;
+using NZPureJadeShop.Models.IRepository;
 using NZPureJadeShop.ViewModels;
 
 namespace NZPureJadeShop.Controllers

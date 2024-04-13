@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NZPureJadeShop.Models.IRepository;
 
-namespace NZPureJadeShop.Models
+namespace NZPureJadeShop.Models.Repository
 {
     public class JadeRepository : IJadeRepository
     {
@@ -14,16 +15,16 @@ namespace NZPureJadeShop.Models
 
         public IEnumerable<Jade> AllJades
         {
-            get 
+            get
             {
                 return _nzPureJadeShopDbContext.Jades.Include(c => c.Category);
             }
-            
+
         }
 
         public IEnumerable<Jade> PopularJadeGifts
-        { 
-           get
+        {
+            get
             {
                 return _nzPureJadeShopDbContext.Jades.Include(c => c.Category).Where(p => p.IsPopularJadeGifts);
             }

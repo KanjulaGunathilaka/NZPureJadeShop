@@ -1,6 +1,7 @@
-using BethanysPieShop.Models;
 using Microsoft.EntityFrameworkCore;
 using NZPureJadeShop.Models;
+using NZPureJadeShop.Models.IRepository;
+using NZPureJadeShop.Models.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 

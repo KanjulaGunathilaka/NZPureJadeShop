@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using NZPureJadeShop.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using NZPureJadeShop.Models.IRepository;
 using NZPureJadeShop.ViewModels;
 
 namespace NZPureJadeShop.Controllers

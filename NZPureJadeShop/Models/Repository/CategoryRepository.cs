@@ -1,6 +1,6 @@
-﻿using NZPureJadeShop.Models;
+﻿using NZPureJadeShop.Models.IRepository;
 
-namespace BethanysPieShop.Models
+namespace NZPureJadeShop.Models.Repository
 {
     public class CategoryRepository : ICategoryRepository
     {

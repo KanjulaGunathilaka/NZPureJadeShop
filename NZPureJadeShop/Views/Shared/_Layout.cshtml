@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Bethany's Pie Shop</title>
+    <title>NZJadeShop</title>
     <link href='https://fonts.googleapis.com/css?family=Work+Sans' rel='stylesheet' type='text/css'>
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
@@ -14,11 +14,11 @@
     <div class="container">
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary"
-                 aria-label="Bethany's Pie Shop navigation header">
+                 aria-label="NZJadeShop navigation header">
                 <div class="container-xl">
                     <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                        <img src="images/bethanys-pie-shop-logo_horiz-white.png" width="151" height="47" class="d-inline-block align-top mb-2 mt-1"
-                             alt="Bethany's Pie Shop Logo">
+                        <img src="images/NZPureJadeShopLogo.png" width="171" height="47" class="d-inline-block align-top mb-2 mt-1"
+                             alt="NZPureJadeShop Logo">
                     </a>
 
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
@@ -32,6 +32,12 @@
                                 <a asp-controller="Home" asp-action="Index" class=" nav-link">Home</a>
                             <li class="nav-item">
                                 <a asp-controller="Jade" asp-action="List" class=" nav-link">Jades</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Contact" asp-action="AboutUs" class="nav-link">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Contact" asp-action="ContactUs" class="nav-link">Contact Us</a>
                             </li>
                         </ul>
                     </div>

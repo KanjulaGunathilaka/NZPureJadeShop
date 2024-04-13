@@ -1,4 +1,4 @@
-﻿namespace NZPureJadeShop.Models
+﻿namespace NZPureJadeShop.Models.IRepository
 {
     public interface ICategoryRepository
     {
