@@ -9,6 +9,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IJadeRepository, JadeRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
+builder.Services.AddScoped<IShoppingCart, ShoppingCart>(sp => ShoppingCart.GetCart(sp));
+builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddDbContext<NZPureJadeShopDbContext>(options =>
 {
     options.UseSqlServer(
@@ -18,6 +22,7 @@ builder.Services.AddDbContext<NZPureJadeShopDbContext>(options =>
 var app = builder.Build();
 
 app.UseStaticFiles();
+app.UseSession();
 
 if (app.Environment.IsDevelopment())
 {

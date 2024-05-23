@@ -14,6 +14,6 @@ namespace NZPureJadeShop.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Jade> Jades { get; set; }
 
-        
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
     }
 }
