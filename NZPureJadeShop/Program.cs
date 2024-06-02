@@ -6,8 +6,11 @@ using NZPureJadeShop.Models.Repository;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+
 builder.Services.AddScoped<IJadeRepository, JadeRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 builder.Services.AddScoped<IShoppingCart, ShoppingCart>(sp => ShoppingCart.GetCart(sp));
 builder.Services.AddSession();
@@ -30,6 +33,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id:int?}");
+
+app.MapRazorPages();
 
 DbInitializer.Seed(app);
 
