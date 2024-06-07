@@ -8,91 +8,105 @@
     <title>Jade Management</title>
 </head>
 <body>
-
+    <div style="margin-top: 20px;"></div>
     <div class="container">
-        <h3 class="my-5">Enter Jade Details</h3>
-        <form id="jadeForm">
-            <div class="row g-2">
-                <div class="col-12">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" class="form-control" />
-                </div>
-                <div class="col-12">
-                    <label for="shortDescription">Short Description:</label>
-                    <input type="text" id="shortDescription" name="shortDescription" class="form-control" />
-                </div>
-                <div class="col-12">
-                    <label for="longDescription">Long Description:</label>
-                    <textarea id="longDescription" name="longDescription" class="form-control" rows="4"></textarea>
-                </div>
-                <div class="col-12">
-                    <label for="price">Price:</label>
-                    <input type="number" id="price" name="price" class="form-control" step="0.01" />
-                </div>
-                <div class="col-12">
-                    <label for="imageUrl">Image URL:</label>
-                    <input type="text" id="imageUrl" name="imageUrl" class="form-control" />
-                </div>
-                <div class="col-12">
-                    <label for="imageThumbnailUrl">Thumbnail URL:</label>
-                    <input type="text" id="imageThumbnailUrl" name="imageThumbnailUrl" class="form-control" />
-                </div>
-                <div class="col-12">
-                    <label for="isPopularJadeGifts">Popular Jade Gifts:</label>
-                    <input type="checkbox" id="isPopularJadeGifts" name="isPopularJadeGifts" />
-                </div>
-                <div class="col-12">
-                    <label for="inStock">In Stock:</label>
-                    <input type="checkbox" id="inStock" name="inStock" />
-                </div>
-                <div class="col-12">
-                    <label for="categoryId">Category:</label>
-                    <select id="categoryId" name="categoryId" class="form-control">
-                        @foreach (var category in Model.Categories)
-                        {
-                            <option value="@category.CategoryId">@category.CategoryName</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-12">
-                    <label for="categoryDescription">Category Description:</label>
-                    <textarea id="categoryDescription" name="categoryDescription" class="form-control" rows="4"></textarea>
-                </div>
-                <button id="submitJade" type="button" class="btn btn-secondary">Submit Jade</button>
-            </div>
-        </form>
-    </div>
+        <button id="showAddForm" class="btn btn-secondary">Add Jade</button>
 
-    <div class="container mt-5">
-        <h3>View Jades</h3>
-        <table id="jadeTable" class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Category</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var jade in Model.Jades)
-                {
+        <div id="message" class="alert" style="display: none;"></div>
+
+        <div id="addJadeForm" style="display: none;">
+            <h3 class="my-5" id="formTitle">Enter Jade Details</h3>
+            <form id="jadeForm">
+                <input type="hidden" id="jadeId" />
+                <div class="row g-2">
+                    <div class="col-12">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" class="form-control" />
+                    </div>
+                    <div class="col-12">
+                        <label for="shortDescription">Short Description:</label>
+                        <input type="text" id="shortDescription" name="shortDescription" class="form-control" />
+                    </div>
+                    <div class="col-12">
+                        <label for="longDescription">Long Description:</label>
+                        <textarea id="longDescription" name="longDescription" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label for="price">Price:</label>
+                        <input type="number" id="price" name="price" class="form-control" step="0.01" />
+                    </div>
+                    <div class="col-12">
+                        <label for="imageUrl">Image URL:</label>
+                        <input type="text" id="imageUrl" name="imageUrl" class="form-control" />
+                    </div>
+                    <div class="col-12">
+                        <label for="imageThumbnailUrl">Thumbnail URL:</label>
+                        <input type="text" id="imageThumbnailUrl" name="imageThumbnailUrl" class="form-control" />
+                    </div>
+                    <div class="col-12">
+                        <label for="isPopularJadeGifts">Popular Jade Gifts:</label>
+                        <input type="checkbox" id="isPopularJadeGifts" name="isPopularJadeGifts" />
+                    </div>
+                    <div class="col-12">
+                        <label for="inStock">In Stock:</label>
+                        <input type="checkbox" id="inStock" name="inStock" />
+                    </div>
+                    <div class="col-12">
+                        <label for="categoryId">Category:</label>
+                        <select id="categoryId" name="categoryId" class="form-control">
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.CategoryId">@category.CategoryName</option>
+                            }
+                        </select>
+                    </div>
+                    <button id="submitJade" type="button" class="btn btn-secondary">Submit Jade</button>
+                    <button id="cancelEdit" type="button" class="btn btn-secondary" style="display: none;">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="jadeTable" class="mt-3">
+            <h3>View Jades</h3>
+            <table class="table table-striped table-hover">
+                <thead>
                     <tr>
-                        <td>@jade.Name</td>
-                        <td>@jade.Price</td>
-                        <td>@jade.Category.CategoryName</td>
-                        <td></td>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Actions</th>
                     </tr>
-                }
-
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var jade in Model.Jades)
+                    {
+                        <tr>
+                            <td>@jade.Name</td>
+                            <td>@jade.Price</td>
+                            <td>@jade.Category.CategoryName</td>
+                            <td>
+                                <button class="btn btn-secondary edit-jade" data-id="@jade.JadeId">Edit</button>
+                                <button class="btn btn-danger delete-jade" data-id="@jade.JadeId">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
-
+    <script>
         $(document).ready(function () {
+            $("#showAddForm").click(function () {
+                $("#addJadeForm").toggle();
+                $("#formTitle").text("Enter Jade Details");
+                $("#submitJade").text("Submit Jade");
+                $("#jadeId").val("");
+                $("#cancelEdit").hide();
+                clearMessage();
+            });
+
             $("#submitJade").click(function (event) {
                 event.preventDefault();
 
@@ -109,21 +123,30 @@
                     categoryId: parseInt($("#categoryId").val())
                 };
 
+                var jadeId = $("#jadeId").val();
+
+                var url = jadeId ? "/api/crud/" + jadeId : "/api/crud";
+
+                var method = jadeId ? "PUT" : "POST";
+
                 $.ajax({
-                    type: "POST",
-                    url: "/api/crud",
+                    type: method,
+                    url: url,
                     data: JSON.stringify(formData),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
-                        console.log("Jade created successfully:", response);
-                        // Optionally redirect to another page or show a success message
-                        // For simplicity, reload the table with updated data
+                        var message = jadeId ? "Jade updated successfully" : "Jade added successfully";
+                        showMessage(message, "alert-success");
                         loadJades(); // Function to load jades into the table
+                        $("#addJadeForm").hide(); // Hide the add form after submission
+                        setTimeout(clearMessage, 5000); // Clear the message after 5 seconds
                     },
                     error: function (xhr, status, error) {
-                        console.error("Failed to create Jade:", xhr.responseText);
-                        // Handle error
+                        var errorMessage = jadeId ? "Failed to update Jade" : "Failed to add Jade";
+                        showMessage(errorMessage, "alert-danger");
+                        console.error(errorMessage + ":", xhr.responseText);
+                        setTimeout(clearMessage, 5000); // Clear the message after 5 seconds
                     }
                 });
             });
@@ -141,7 +164,7 @@
                             row.append($("<td>").text(jade.name));
                             row.append($("<td>").text(jade.price));
                             row.append($("<td>").text(jade.category.categoryName));
-                            row.append($("<td>").html('<button class="btn btn-secondary">Edit</button> <button class="btn btn-danger">Delete</button>'));
+                            row.append($("<td>").html('<button class="btn btn-secondary edit-jade" data-id="' + jade.id + '">Edit</button> <button class="btn btn-danger delete-jade" data-id="' + jade.id + '">Delete</button>'));
                             table.append(row);
                         });
                     },
@@ -152,10 +175,74 @@
             }
 
             // Initial load of jades when the page is ready
-            //loadJades();
+            loadJades();
+
+            // Edit Jade button click handler
+            $(document).on("click", ".edit-jade", function () {
+                var jadeId = $(this).data("id");
+                // Fetch the Jade details to populate the form
+                $.ajax({
+                    type: "GET",
+                    url: "/api/jades/" + jadeId,
+                    success: function (jade) {
+                        $("#name").val(jade.name);
+                        $("#shortDescription").val(jade.shortDescription);
+                        $("#longDescription").val(jade.longDescription);
+                        $("#price").val(jade.price);
+                        $("#imageUrl").val(jade.imageUrl);
+                        $("#imageThumbnailUrl").val(jade.imageThumbnailUrl);
+                        $("#isPopularJadeGifts").prop("checked", jade.isPopularJadeGifts);
+                        $("#inStock").prop("checked", jade.inStock);
+                        $("#categoryId").val(jade.categoryId);
+                        $("#categoryDescription").val(jade.categoryDescription);
+
+                        // Show the add form if hidden
+                        $("#addJadeForm").show();
+                        $("#formTitle").text("Edit Jade");
+                        $("#submitJade").text("Update Jade");
+                        $("#jadeId").val(jade.id);
+                        $("#cancelEdit").show();
+                        clearMessage();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Failed to fetch Jade:", error);
+                    }
+                });
+            });
+
+            // Cancel Edit button click handler
+            $("#cancelEdit").click(function () {
+                $("#addJadeForm").hide();
+                $("#formTitle").text("Enter Jade Details");
+                $("#submitJade").text("Submit Jade");
+                $("#jadeId").val("");
+                clearMessage();
+            });
+
+            // Delete Jade button click handler
+            $(document).on("click", ".delete-jade", function () {
+                var jadeId = $(this).data("id");
+                // Implement delete logic here
+                console.log("Delete Jade with ID: " + jadeId);
+            });
+
+            // Function to show a message
+            function showMessage(message, alertClass) {
+                var messageDiv = $("#message");
+                messageDiv.removeClass();
+                messageDiv.addClass("alert " + alertClass);
+                messageDiv.text(message);
+                messageDiv.show();
+            }
+
+            // Function to clear the message
+            function clearMessage() {
+                var messageDiv = $("#message");
+                messageDiv.removeClass();
+                messageDiv.text("");
+                messageDiv.hide();
+            }
         });
-
     </script>
-
 </body>
 </html>
