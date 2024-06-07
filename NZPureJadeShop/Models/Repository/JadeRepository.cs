@@ -37,7 +37,7 @@ namespace NZPureJadeShop.Models.Repository
 
         public IEnumerable<Jade> SearchJades(string searchQuery)
         {
-            throw new NotImplementedException();
+            return _nzPureJadeShopDbContext.Jades.Where(j => j.Name.Contains(searchQuery));
         }
     }
 }

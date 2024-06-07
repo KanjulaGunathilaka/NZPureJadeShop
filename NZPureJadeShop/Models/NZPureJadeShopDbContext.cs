@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.IO.Pipelines;
 
 namespace NZPureJadeShop.Models
 {
-    public class NZPureJadeShopDbContext:DbContext
+    public class NZPureJadeShopDbContext:IdentityDbContext
     {
         
 

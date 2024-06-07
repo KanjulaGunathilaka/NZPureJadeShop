@@ -10,9 +10,9 @@ namespace NZPureJadeShop.Models
         public string? ShoppingCartId { get; set; }
         public List<ShoppingCartItem> ShoppingCartItems { get; set; } = default!;
 
-        private ShoppingCart(NZPureJadeShopDbContext bethanysPieShopDbContext)
+        private ShoppingCart(NZPureJadeShopDbContext nzPureJadeShopDbContext)
         {
-            _nzPureJadeShopDbContext = bethanysPieShopDbContext;
+            _nzPureJadeShopDbContext = nzPureJadeShopDbContext;
         }
 
         public static ShoppingCart GetCart(IServiceProvider services)

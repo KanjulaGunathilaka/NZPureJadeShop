@@ -4,7 +4,7 @@ using NZPureJadeShop.Models;
 
 namespace NZPureJadeShop.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly IOrderRepository _OrderRepository;

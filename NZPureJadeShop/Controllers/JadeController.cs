@@ -54,5 +54,11 @@ namespace NZPureJadeShop.Controllers
 
             return View(jade);
         }
+
+        public IActionResult Search()
+        {
+            return View();
+        }
+
     }
 }
