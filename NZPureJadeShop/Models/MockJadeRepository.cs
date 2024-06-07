@@ -66,6 +66,11 @@ namespace NZPureJadeShop.Models
 
         public Jade? GetJadeById(int jadeId) => AllJades.FirstOrDefault(p => p.JadeId == jadeId);
 
+        public Task<Jade> SaveJade(Jade jade)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Jade> SearchJades(string searchQuery)
         {
             throw new NotImplementedException();

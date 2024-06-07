@@ -35,6 +35,19 @@ namespace NZPureJadeShop.Models.Repository
             return _nzPureJadeShopDbContext.Jades.FirstOrDefault(p => p.JadeId == jadeId);
         }
 
+        public async Task<Jade> SaveJade(Jade jade)
+        {
+
+            await _nzPureJadeShopDbContext.Categories.FindAsync(jade.CategoryId);
+
+            _nzPureJadeShopDbContext.Jades.Add(jade);
+
+
+            await _nzPureJadeShopDbContext.SaveChangesAsync();
+
+            return jade;
+        }
+
         public IEnumerable<Jade> SearchJades(string searchQuery)
         {
             return _nzPureJadeShopDbContext.Jades.Where(j => j.Name.Contains(searchQuery));

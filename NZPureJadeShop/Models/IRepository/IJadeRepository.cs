@@ -11,5 +11,7 @@ namespace NZPureJadeShop.Models.IRepository
         Jade? GetJadeById(int jadeId);
 
         IEnumerable<Jade> SearchJades(string searchQuery);
+
+        Task<Jade> SaveJade(Jade jade);
     }
 }

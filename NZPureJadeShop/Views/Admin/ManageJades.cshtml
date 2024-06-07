@@ -1,0 +1,161 @@
+﻿@model AdminViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jade Management</title>
+</head>
+<body>
+
+    <div class="container">
+        <h3 class="my-5">Enter Jade Details</h3>
+        <form id="jadeForm">
+            <div class="row g-2">
+                <div class="col-12">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" class="form-control" />
+                </div>
+                <div class="col-12">
+                    <label for="shortDescription">Short Description:</label>
+                    <input type="text" id="shortDescription" name="shortDescription" class="form-control" />
+                </div>
+                <div class="col-12">
+                    <label for="longDescription">Long Description:</label>
+                    <textarea id="longDescription" name="longDescription" class="form-control" rows="4"></textarea>
+                </div>
+                <div class="col-12">
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="price" class="form-control" step="0.01" />
+                </div>
+                <div class="col-12">
+                    <label for="imageUrl">Image URL:</label>
+                    <input type="text" id="imageUrl" name="imageUrl" class="form-control" />
+                </div>
+                <div class="col-12">
+                    <label for="imageThumbnailUrl">Thumbnail URL:</label>
+                    <input type="text" id="imageThumbnailUrl" name="imageThumbnailUrl" class="form-control" />
+                </div>
+                <div class="col-12">
+                    <label for="isPopularJadeGifts">Popular Jade Gifts:</label>
+                    <input type="checkbox" id="isPopularJadeGifts" name="isPopularJadeGifts" />
+                </div>
+                <div class="col-12">
+                    <label for="inStock">In Stock:</label>
+                    <input type="checkbox" id="inStock" name="inStock" />
+                </div>
+                <div class="col-12">
+                    <label for="categoryId">Category:</label>
+                    <select id="categoryId" name="categoryId" class="form-control">
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category.CategoryId">@category.CategoryName</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label for="categoryDescription">Category Description:</label>
+                    <textarea id="categoryDescription" name="categoryDescription" class="form-control" rows="4"></textarea>
+                </div>
+                <button id="submitJade" type="button" class="btn btn-secondary">Submit Jade</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container mt-5">
+        <h3>View Jades</h3>
+        <table id="jadeTable" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var jade in Model.Jades)
+                {
+                    <tr>
+                        <td>@jade.Name</td>
+                        <td>@jade.Price</td>
+                        <td>@jade.Category.CategoryName</td>
+                        <td></td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#submitJade").click(function (event) {
+                event.preventDefault();
+
+                var formData = {
+                    name: $("#name").val(),
+                    shortDescription: $("#shortDescription").val(),
+                    longDescription: $("#longDescription").val(),
+                    specialInformation: null, // Assuming specialInformation is not part of the form
+                    price: parseFloat($("#price").val()),
+                    imageUrl: $("#imageUrl").val(),
+                    imageThumbnailUrl: $("#imageThumbnailUrl").val(),
+                    isPopularJadeGifts: $("#isPopularJadeGifts").is(":checked"),
+                    inStock: $("#inStock").is(":checked"),
+                    categoryId: parseInt($("#categoryId").val())
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/crud",
+                    data: JSON.stringify(formData),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log("Jade created successfully:", response);
+                        // Optionally redirect to another page or show a success message
+                        // For simplicity, reload the table with updated data
+                        loadJades(); // Function to load jades into the table
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Failed to create Jade:", xhr.responseText);
+                        // Handle error
+                    }
+                });
+            });
+
+            // Function to load jades into the table
+            function loadJades() {
+                $.ajax({
+                    type: "GET",
+                    url: "/api/jades",
+                    success: function (jades) {
+                        var table = $("#jadeTable tbody");
+                        table.empty();
+                        $.each(jades, function (i, jade) {
+                            var row = $("<tr>");
+                            row.append($("<td>").text(jade.name));
+                            row.append($("<td>").text(jade.price));
+                            row.append($("<td>").text(jade.category.categoryName));
+                            row.append($("<td>").html('<button class="btn btn-secondary">Edit</button> <button class="btn btn-danger">Delete</button>'));
+                            table.append(row);
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Failed to load jades:", error);
+                    }
+                });
+            }
+
+            // Initial load of jades when the page is ready
+            //loadJades();
+        });
+
+    </script>
+
+</body>
+</html>
