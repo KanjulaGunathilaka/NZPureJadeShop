@@ -17,6 +17,7 @@ namespace NZPureJadeShop.Controllers.Api
             _jadeRepository = jadeRepository;
 
         }
+
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -32,6 +33,7 @@ namespace NZPureJadeShop.Controllers.Api
 
             return Ok(_jadeRepository.AllJades.Where(j => j.JadeId == id));
         }
+
         [HttpPost]
         public IActionResult searchJades([FromBody] string searchQuery)
         {
@@ -41,9 +43,7 @@ namespace NZPureJadeShop.Controllers.Api
             {
                 jades = _jadeRepository.SearchJades(searchQuery);
             }
-
             return new JsonResult(jades);
-
         }
     }
 }

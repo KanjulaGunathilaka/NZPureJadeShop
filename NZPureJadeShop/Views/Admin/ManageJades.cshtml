@@ -68,21 +68,26 @@
 
         <div id="jadeTable" class="mt-3">
             <h3>View Jades</h3>
-            <table class="table table-striped table-hover">
+            <table id="jadeDataTable" class="table table-striped table-hover">
                 <thead>
                     <tr>
+                        <th>JadeId</th>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>IsPopularJadeGifts</th>
+                        <th>InStock</th>
                         <th>Category</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var jade in Model.Jades)
                     {
                         <tr>
+                            <td>@jade.JadeId</td>
                             <td>@jade.Name</td>
                             <td>@jade.Price</td>
+                            <td>@jade.IsPopularJadeGifts</td>
+                            <td>@jade.InStock</td>
                             <td>@jade.Category.CategoryName</td>
                             <td>
                                 <button class="btn btn-secondary edit-jade" data-id="@jade.JadeId">Edit</button>
@@ -99,6 +104,7 @@
     <script>
         $(document).ready(function () {
             $("#showAddForm").click(function () {
+                clearForm();
                 $("#addJadeForm").toggle();
                 $("#formTitle").text("Enter Jade Details");
                 $("#submitJade").text("Submit Jade");
@@ -111,10 +117,10 @@
                 event.preventDefault();
 
                 var formData = {
+                    jadeId: $("#jadeId").val() ? parseInt($("#jadeId").val()) : 0,
                     name: $("#name").val(),
                     shortDescription: $("#shortDescription").val(),
                     longDescription: $("#longDescription").val(),
-                    specialInformation: null, // Assuming specialInformation is not part of the form
                     price: parseFloat($("#price").val()),
                     imageUrl: $("#imageUrl").val(),
                     imageThumbnailUrl: $("#imageThumbnailUrl").val(),
@@ -123,48 +129,47 @@
                     categoryId: parseInt($("#categoryId").val())
                 };
 
-                var jadeId = $("#jadeId").val();
-
-                var url = jadeId ? "/api/crud/" + jadeId : "/api/crud";
-
-                var method = jadeId ? "PUT" : "POST";
+                var requestType = formData.jadeId ? "PUT" : "POST";
+                var requestUrl = formData.jadeId ? "/api/jade/" + formData.jadeId : "/api/jade";
 
                 $.ajax({
-                    type: method,
-                    url: url,
+                    type: requestType,
+                    url: requestUrl,
                     data: JSON.stringify(formData),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
-                        var message = jadeId ? "Jade updated successfully" : "Jade added successfully";
-                        showMessage(message, "alert-success");
-                        loadJades(); // Function to load jades into the table
-                        $("#addJadeForm").hide(); // Hide the add form after submission
-                        setTimeout(clearMessage, 5000); // Clear the message after 5 seconds
+                        showMessage(formData.jadeId ? "Jade updated successfully" : "Jade added successfully", "alert-success");
+                        loadJades();
+                        $("#addJadeForm").hide();
+                        setTimeout(clearMessage, 5000);
                     },
                     error: function (xhr, status, error) {
-                        var errorMessage = jadeId ? "Failed to update Jade" : "Failed to add Jade";
-                        showMessage(errorMessage, "alert-danger");
-                        console.error(errorMessage + ":", xhr.responseText);
-                        setTimeout(clearMessage, 5000); // Clear the message after 5 seconds
+                        showMessage("Failed to " + (formData.jadeId ? "update" : "add") + " Jade", "alert-danger");
+                        console.error("Failed to " + (formData.jadeId ? "update" : "add") + " Jade:", xhr.responseText);
+                        setTimeout(clearMessage, 5000);
                     }
                 });
             });
+
 
             // Function to load jades into the table
             function loadJades() {
                 $.ajax({
                     type: "GET",
-                    url: "/api/jades",
+                    url: "/api/jade",
                     success: function (jades) {
-                        var table = $("#jadeTable tbody");
+                        var table = $("#jadeDataTable tbody");
                         table.empty();
                         $.each(jades, function (i, jade) {
                             var row = $("<tr>");
+                            row.append($("<td>").text(jade.jadeId));
                             row.append($("<td>").text(jade.name));
                             row.append($("<td>").text(jade.price));
+                            row.append($("<td>").text(jade.isPopularJadeGifts));
+                            row.append($("<td>").text(jade.inStock));
                             row.append($("<td>").text(jade.category.categoryName));
-                            row.append($("<td>").html('<button class="btn btn-secondary edit-jade" data-id="' + jade.id + '">Edit</button> <button class="btn btn-danger delete-jade" data-id="' + jade.id + '">Delete</button>'));
+                            row.append($("<td>").html('<button class="btn btn-secondary edit-jade" data-id="' + jade.jadeId + '">Edit</button> <button class="btn btn-danger delete-jade" data-id="' + jade.jadeId + '">Delete</button>'));
                             table.append(row);
                         });
                     },
@@ -174,57 +179,134 @@
                 });
             }
 
-            // Initial load of jades when the page is ready
-            loadJades();
+            $(document).ready(function () {
+                loadJades();
+            });
 
-            // Edit Jade button click handler
             $(document).on("click", ".edit-jade", function () {
                 var jadeId = $(this).data("id");
-                // Fetch the Jade details to populate the form
+                editJade(jadeId);
+            });
+
+            $(document).on("click", ".delete-jade", function () {
+                var jadeId = $(this).data("id");
+                showDeleteConfirmation(jadeId);
+            });
+
+            function editJade(jadeId) {
                 $.ajax({
                     type: "GET",
-                    url: "/api/jades/" + jadeId,
+                    url: "/api/jade/" + jadeId,
                     success: function (jade) {
-                        $("#name").val(jade.name);
-                        $("#shortDescription").val(jade.shortDescription);
-                        $("#longDescription").val(jade.longDescription);
-                        $("#price").val(jade.price);
-                        $("#imageUrl").val(jade.imageUrl);
-                        $("#imageThumbnailUrl").val(jade.imageThumbnailUrl);
-                        $("#isPopularJadeGifts").prop("checked", jade.isPopularJadeGifts);
-                        $("#inStock").prop("checked", jade.inStock);
-                        $("#categoryId").val(jade.categoryId);
-                        $("#categoryDescription").val(jade.categoryDescription);
-
-                        // Show the add form if hidden
-                        $("#addJadeForm").show();
-                        $("#formTitle").text("Edit Jade");
-                        $("#submitJade").text("Update Jade");
-                        $("#jadeId").val(jade.id);
-                        $("#cancelEdit").show();
-                        clearMessage();
+                        populateJadeForm(jade);
                     },
                     error: function (xhr, status, error) {
                         console.error("Failed to fetch Jade:", error);
                     }
                 });
-            });
+            }
 
-            // Cancel Edit button click handler
+            function showDeleteConfirmation(jadeId) {
+                var confirmationModal = `
+                        <div class="modal" tabindex="-1" role="dialog" id="deleteConfirmationModal">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Confirm Deletion</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delete this Jade?
+                                    </div>
+                                    <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"id="confirmDeleteCancelButton" data-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                $('body').append(confirmationModal);
+
+                $('#deleteConfirmationModal').modal('show');
+
+                $('#confirmDeleteButton').on('click', function () {
+                    deleteJade(jadeId);
+                    $('#deleteConfirmationModal').modal('hide');
+                });
+
+                $('#confirmDeleteCancelButton').on('click', function () {
+                    $('#deleteConfirmationModal').modal('hide');
+                });
+
+                $('#deleteConfirmationModal').on('hidden.bs.modal', function (e) {
+                    $(this).remove();
+                });
+            }
+
+            function deleteJade(jadeId) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "/api/jade/" + jadeId,
+                    success: function (response) {
+                        showMessage("Jade deleted successfully", "alert-success");
+                        loadJades();
+                        clearMessage();
+                    },
+                    error: function (xhr, status, error) {
+                        showMessage("Failed to delete Jade", "alert-danger");
+                        console.error("Failed to delete Jade:", xhr.responseText);
+                        clearMessage();
+                    }
+                });
+            }
+
+            function populateJadeForm(jade) {
+                // Populate the form fields
+                $("#name").val(jade.name);
+                $("#shortDescription").val(jade.shortDescription);
+                $("#longDescription").val(jade.longDescription);
+                $("#price").val(jade.price);
+                $("#imageUrl").val(jade.imageUrl);
+                $("#imageThumbnailUrl").val(jade.imageThumbnailUrl);
+                $("#isPopularJadeGifts").prop("checked", jade.isPopularJadeGifts);
+                $("#inStock").prop("checked", jade.inStock);
+                $("#categoryId").val(jade.categoryId);
+
+                // Show the Jade ID field
+                $("#jadeId").val(jade.jadeId);
+
+                // Show the add form if hidden
+                $("#addJadeForm").show();
+                $("#formTitle").text("Edit Jade");
+                $("#submitJade").text("Update Jade");
+                $("#cancelEdit").show();
+                clearMessage();
+            }
+
+
             $("#cancelEdit").click(function () {
                 $("#addJadeForm").hide();
                 $("#formTitle").text("Enter Jade Details");
                 $("#submitJade").text("Submit Jade");
-                $("#jadeId").val("");
+                clearForm();
                 clearMessage();
             });
 
-            // Delete Jade button click handler
-            $(document).on("click", ".delete-jade", function () {
-                var jadeId = $(this).data("id");
-                // Implement delete logic here
-                console.log("Delete Jade with ID: " + jadeId);
-            });
+            function populateCategoryDropdown(categories, selectedCategoryName) {
+                var dropdown = $("#categoryId");
+                dropdown.empty();
+
+                $.each(categories, function (i, category) {
+                    dropdown.append($("<option>").text(category.categoryName).val(category.categoryId));
+                });
+
+                if (selectedCategoryName) {
+                    dropdown.val(selectedCategoryName);
+                }
+            }
 
             // Function to show a message
             function showMessage(message, alertClass) {
@@ -242,6 +324,20 @@
                 messageDiv.text("");
                 messageDiv.hide();
             }
+
+            // Function to clear the form fields
+            function clearForm() {
+                $("#name").val("");
+                $("#shortDescription").val("");
+                $("#longDescription").val("");
+                $("#price").val("");
+                $("#imageUrl").val("");
+                $("#imageThumbnailUrl").val("");
+                $("#isPopularJadeGifts").prop("checked", false);
+                $("#inStock").prop("checked", false);
+                $("#categoryId").val("");
+            }
+
         });
     </script>
 </body>

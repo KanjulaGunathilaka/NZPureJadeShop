@@ -64,6 +64,11 @@ namespace NZPureJadeShop.Models
             }
         }
 
+        public Task<Jade> DeleteJade(int jadeId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Jade? GetJadeById(int jadeId) => AllJades.FirstOrDefault(p => p.JadeId == jadeId);
 
         public Task<Jade> SaveJade(Jade jade)
@@ -72,6 +77,16 @@ namespace NZPureJadeShop.Models
         }
 
         public IEnumerable<Jade> SearchJades(string searchQuery)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Jade> UpdateJade(Jade jade)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Jade> IJadeRepository.GetJadeById(int id)
         {
             throw new NotImplementedException();
         }

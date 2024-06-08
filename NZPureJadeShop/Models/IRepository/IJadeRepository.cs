@@ -8,10 +8,14 @@ namespace NZPureJadeShop.Models.IRepository
 
         IEnumerable<Jade> PopularJadeGifts { get; }
 
-        Jade? GetJadeById(int jadeId);
+        Task<Jade> GetJadeById(int id);
 
         IEnumerable<Jade> SearchJades(string searchQuery);
 
         Task<Jade> SaveJade(Jade jade);
+
+        Task<Jade> UpdateJade(Jade jade);
+
+        Task<Jade> DeleteJade(int jadeId);
     }
 }

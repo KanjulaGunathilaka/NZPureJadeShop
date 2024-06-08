@@ -36,5 +36,25 @@ namespace NZPureJadeShop.Models
                         CategoryName = "Custom Carving",
                         Description = "Our custom made service allows you to work with talented New Zealand artists to bring your story to life in a truly unique and meaningful piece, carved locally by us and made bespoke for you or your loved one. Our Rotorua artists will work with you every step of the way to create your one-of-a-kind design." }
             };
+
+        public Task<Category> DeleteCategory(int categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Category> FindCategoryById(int categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Category> SaveCategory(Category category)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Category> UpdateCategory(Category category)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

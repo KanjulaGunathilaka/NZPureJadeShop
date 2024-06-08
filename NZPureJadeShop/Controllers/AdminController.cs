@@ -14,11 +14,21 @@ namespace WebApplication2.Controllers
             _categoryRepository = categoryRepository;
             _jadeRepository = jadeRepository;
         }
+
+        // Action to manage jades
         public IActionResult ManageJades()
         {
             var categories = _categoryRepository.AllCategories;
             var jades = _jadeRepository.AllJades;
             var adminViewModel = new AdminViewModel(categories, jades);
+            return View(adminViewModel);
+        }
+
+        // Action to manage categories
+        public IActionResult ManageCategories()
+        {
+            var categories = _categoryRepository.AllCategories;
+            var adminViewModel = new AdminViewModel { Categories = categories };
             return View(adminViewModel);
         }
     }
