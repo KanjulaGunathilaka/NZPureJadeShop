@@ -3687,7 +3687,7 @@ textarea.form-control-lg {
     color: #36302C;
     text-align: left;
     list-style: none;
-    background-color: #E5E5E5;
+    background-color: #04bf39;
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 0.25rem;
@@ -11796,7 +11796,7 @@ h6, .h6 {
     }
 
     .nav-item.dropdown li {
-        background-color: #C87D52;
+        background-color: #0c8c00;
         font-weight: 600;
         font-size: 16px;
         text-transform: uppercase;

@@ -37,13 +37,36 @@
                             <li class="nav-item">
                                 <a asp-controller="Contact" asp-action="ContactUs" class="nav-link">Contact Us</a>
                             </li>
-                            <li class="nav-item">
-                                <a asp-controller="Admin" asp-action="ManageJades" class="nav-link">Manage Jades</a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-controller="Admin" asp-action="ManageCategories" class="nav-link">Manage Categories</a>
-                            </li>
+@*                             <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                    <li>
+                                        <a asp-controller="Admin" asp-action="ManageJades" class="dropdown-item">Manage Jades</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Admin" asp-action="ManageCategories" class="dropdown-item">Manage Categories</a>
+                                    </li>
+                                </ul>
+                            </li> *@
                         </ul>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            bool isAdmin = string.Equals(User.Identity.Name, "admin@nzpurejadeshop.com", StringComparison.OrdinalIgnoreCase);
+                            if (isAdmin)
+                            {
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="adminDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        ADMIN
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        <a class="dropdown-item" asp-controller="Admin" asp-action="ManageJades">Manage Jades</a>
+                                        <a class="dropdown-item" asp-controller="Admin" asp-action="ManageCategories">Manage Categories</a>
+                                    </div>
+                                </div>
+                            }
+                        }
                         <ul class="navbar-nav mb-2 mb-lg-0">
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Jade" asp-action="Search">

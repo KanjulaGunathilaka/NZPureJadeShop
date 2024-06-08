@@ -3,9 +3,12 @@
 
 @{
     ViewData["Title"] = "Log in";
+    bool isAdmin = false;
+    string enteredEmail = Model.Input?.Email ?? "";
 }
 
 <h1>@ViewData["Title"]</h1>
+
 <div class="row">
     <div class="col-md-4">
         <section>
@@ -55,8 +58,10 @@
                 {
                     <div>
                         <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
+                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                                article
+                                about setting up this ASP.NET application to support logging in via external services
+                            </a>.
                         </p>
                     </div>
                 }
@@ -75,6 +80,34 @@
                 }
             }
         </section>
+    </div>
+</div>
+
+@{
+    // Check if the entered email is the admin email
+    isAdmin = enteredEmail.Equals("admin@nzpurejadeshop.com", StringComparison.OrdinalIgnoreCase);
+}
+
+@if (isAdmin)
+{
+    <div class="col-md-2">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                ADMIN
+            </button>
+            <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                <a class="dropdown-item" asp-controller="Admin" asp-action="ManageJades">Manage Jades</a>
+                <a class="dropdown-item" asp-controller="Admin" asp-action="ManageCategories">Manage Categories</a>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="col-md-12 mt-4">
+    <div>
+        <h4>User Information:</h4>
+        <p>Email: @enteredEmail</p>
+        <p>Is Admin: @isAdmin</p>
     </div>
 </div>
 
