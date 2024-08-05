@@ -1,0 +1,17 @@
+﻿@model HomeViewModel
+
+<partial name="_Carousel" />
+
+<div class="text-center">
+    <img src="Images/nzpurejadeshop-logomark.png" class="logo-mark mx-auto" />
+    <h1>Popular Jade Gifts</h1>
+    <h5>Are you a lover of beautiful jewellery? Buy our pure Jades Today </h5>
+    <div class="row popular-jade-gifts">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var jade in Model.PopularJadeGifts)
+            {
+                <partial name="_JadeCard" model="jade" />
+            }
+        </div>
+    </div>
+</div>

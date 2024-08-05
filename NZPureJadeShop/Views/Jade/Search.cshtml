@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jade Search</title>
+</head>
+<body>
+
+    <div class="my-5">
+        <h3 class="mb-4">Enter your search query</h3>
+        <input id="txtJadeName" type="text" />
+        <button id="searchButton" class="btn btn-secondary">Search</button>
+    </div>
+
+    <table id="tblJades" cellpadding="0" cellspacing="0">
+        <tbody></tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("button").click(function () {
+                var searchQuery = $.trim($("#txtJadeName").val());
+                $("tbody").html("");
+                $.ajax({
+                    type: "POST",
+                    url: "/api/Search",
+                    data: JSON.stringify(searchQuery),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (jades) {
+                        var table = $("#tblJades");
+                        if (jades.length === 0) {
+                            $("tbody").append('<tr><td colspan="3">No results found. Please try a different search query.</td></tr>');
+                        } else {
+                            $.each(jades, function (i, jade) {
+                                var newRow = $("<tr>");
+                                newRow.append($('<td>').html('<img src="' + jade.imageThumbnailUrl + '" width="250" class="rounded m-2">'));
+                                newRow.append($('<td>').html('<h2><a href="/jade/details/' + jade.jadeId + '" class="jade-link">' + jade.name + '</a></h2>'));
+                                newRow.append($('<td>').html(jade.price));
+                                table.append(newRow);
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr);
+                    }
+                });
+            });
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,5 +1,4 @@
-﻿
-using NZPureJadeShop.Models;
+﻿using NZPureJadeShop.Models;
 
 namespace NZPureJadeShop.ViewModels
 {
